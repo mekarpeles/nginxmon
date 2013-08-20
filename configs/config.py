@@ -31,9 +31,10 @@ config.getdef = types.MethodType(getdef, config)
 email_creds = {'email': config.getdef('mail', 'email', ''),
                'passwd': config.getdef('mail', 'passwd', ''),
                'host': config.getdef('mail', 'host', 'smtp.gmail.com'),
-               'port': config.getdef('mail', 'host', 587, int)
+               'port': config.getdef('mail', 'port', 587, int)
                }
 
 service = {'name': config.getdef('service', 'name', ''),
-           'logfile': config.getdef('service', 'logfile', '')
+           'logfile': config.getdef('service', 'logfile', ''),
+           'event': config.getdef('service', 'event', 'IN_MODIFY')
            }
