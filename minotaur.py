@@ -15,7 +15,6 @@ import os
 import datetime
 import functools
 import pyinotify
-import numpy
 from mail import MailServer
 from configs.config import service, email_creds
 
