@@ -52,10 +52,13 @@ def nginxmon_parser(logfile):
         contents = tail(log)
         line = contents.pop()
         tmp = [line]
-        while line.index(' ') == 0:
-            line = contents.pop()
-            tmp.append(line)
-        return '\n'.join(tmp[::-1])
+        while (line.index(' ') == 0) or ("[error]" not in line):
+            try:
+                line = contents.pop()
+                tmp.append(line)
+            except:
+                break
+        return "<pre>%s</pre>" % '\n'.join(tmp[::-1])
                 
 def callback(notifier, parser=None, goalp=None):
     content = parser() if parser else ''
@@ -66,7 +69,7 @@ def callback(notifier, parser=None, goalp=None):
     t = datetime.datetime.now().ctime()
     subject = "ERROR alert: (%s) at %s" % (service['name'], t)
     mailserver.sendmail(sender=mailserver.email, recipients=mailserver.email,
-                        subject=subject, msg=content, fmt='plain')
+                        subject=subject, msg=content, fmt='html')
 
 def patrol(filename, event, success=callback, goalp=lambda *args, **kwargs: True):
     monitor = pyinotify.WatchManager()
